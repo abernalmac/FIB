@@ -1,0 +1,10 @@
+Albert Bernal Macías
+Pregunta 1 - Resposta: Price
+Pregunta 3 - Resposta: 1af277454f0735ab88ef827dc71ee094d37956b5625b2c695aefe838e70c6832
+Pregunta 4 - Resposta: Fail Open Error Handling
+Pregunta 5 - Resposta: 65432cjgjt
+Pregunta 6 - Resposta: 33843453533
+Pregunta 7 - Resposta: { "From": "Boston", "To": "Seattle", "flights": [ {"stops": "0", "transit" : "N/A", "price": "$60"}, {"stops": "2", "transit" : "Newark,Chicago", "price": "$300"} ]
+Pregunta 8 - Resposta: 5.5.28
+Pregunta 9 - Resposta: CVE-2009-3548
+Pregunta 10 - Resposta: Apache-Coyote/1.1

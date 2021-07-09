@@ -1,0 +1,19 @@
+iptables -F
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT DROP
+
+iptables -I INPUT 1 -i lo -j ACCEPT
+iptables -A INPUT -m conntrack --ctstate NEW,INVALID -j DROP 
+iptables -I INPUT 1 -p tcp --dport www -d 54.192.106.108 -j LOG --log-level 7
+iptables -A INPUT -p udp --dport 53 -j ACCEPT
+iptables -A INPUT -p icmp -j ACCEPT 
+iptables -A INPUT -p tcp --dport www -d 147.83.2.135 -j ACCEPT
+iptables -A INPUT -p tcp --dport www -d 54.192.106.108 -j ACCEPT
+
+iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
+iptables -A OUTPUT -p icmp -j ACCEPT 
+iptables -A OUTPUT -p tcp --dport www -s 147.83.2.135 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 443 -s 147.83.2.135 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport www -s 54.192.106.108 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 443 -s 54.192.106.108 -j ACCEPT

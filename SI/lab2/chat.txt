@@ -1,0 +1,102 @@
+Roberto Barreda
+8:13
+recordar también poner una regla para poder conectar con localhost (el dns por defecto de la VM ataca un servicio llamado systemd-resolved que escucha en localhost) tanto en INPUT como OUTPUT
+Davide Careglio
+8:15
+todo claro?
+Carlos Bárcenas Holguera
+8:16
+ya surgirán
+Roberto Barreda
+8:38
+en realidad hay que poner las reglas para las dos cosas:
+- aceptar INPUT/OUTPUT sobre la interfície lo
+- aceptar INPUT/OUTPUT udp puerto 53 porque el loopback hace forward de la petición hacia fuera
+Remitent desconegut
+8:41
+Davide hay algun problema si utilizamos en virtualBox una máquina virtual nuestra con ubuntu 18? Lo digo porque con la que nos dais tengo problemas para verla en pantalla completa, y así trabajar más cómodo.
+Davide Careglio
+8:41
+no hay problema
+Remitent desconegut
+8:41
+okey 
+Roberto Barreda
+8:41
+hay que instalar los guest additions https://www.virtualbox.org/manual/ch04.html
+pero en cualquier linux (debian based) funcionan los mismos comandos
+Roberto Barreda
+8:44
+para probar que os funciona el DNS
+$ dig www.upc.edu
+Roberto Barreda
+8:47
+por defecto usara el servidor dns de /etc/resolve.conf
+para probar con otros servidores
+$ dig www.upc.edu @1.1.1.1
+Roberto Barreda
+8:48
+la lista de puertos conocidos (ssh, www) los encontrareis en /etc/services
+Carlos Bárcenas Holguera
+8:51
+yo he abierto udp/53 de INPUT y OUTPUT. loopback solo me deja de OUTPUT. Y nada
+Roberto Barreda
+8:52
+recordad poner correctamente la dirección en la que van los paquetes por la interface (-i / -o)
+Carlos Bárcenas Holguera
+8:55
+vale, ahora ya he podido ponerlo en input, pero el DNS sigue sin resolver
+Roberto Barreda
+8:58
+OUTPUT para lo?
+el orden en iptables es importante, más arriba, más prioritaria
+Carlos Bárcenas Holguera
+8:59
+lo reviso, gracias
+Javier Francés Falip
+9:30
+Es normal que el acceso a upc.edu sea muuuuy lento?
+Davide Careglio
+9:30
+para ver que es lo que realmente os está bloqueando el acceso, podeis probar a poner ACCEPT a la regla por defecto del OUTPUT 
+si es normal Javier
+Javier Francés Falip
+9:31
+Ah vale, me estaba asustando que le costase tanto
+Thx
+Davide Careglio
+9:31
+dices cuando accedes a la upc con el browser, no?
+Javier Francés Falip
+9:31
+Sisi
+Firefox
+Carlos Bárcenas Holguera
+9:36
+yo aun ni me he acercado a conseguirlo, estoy probando de permitir directamente la IP, pero nada
+Roberto Barreda
+9:36
+Podéis ver también los contadores de match como crecen (para ver si actual el ACCEPT o DROP)
+$ watch -n0 iptables -L -n -v
+Javier Francés Falip
+9:45
+Per fer log de metasploit.com, el DNS em provoca que s'afegeixin regles a la taula pq sembla que hi ha varies IP disponibles, com indico a quina regla vull fer focus pel log? 
+Davide Careglio
+9:47
+en principio deberian aparecer en orden de preferencia a la hora de conectarse a metasploit
+de manera que suele conectarse al primero
+Javier Francés Falip
+9:48
+logeo solo el primero?
+Davide Careglio
+9:48
+si, lo que queremos ver es que sepas poner bien la regla para los logs
+Javier Francés Falip
+9:49
+oookay
+Davide Careglio
+9:50
+puedes comproabar con eso de iptables -L -n -v cual realmente se está usando...
+Javier Francés Falip
+9:52
+Encontrado! Gracias
